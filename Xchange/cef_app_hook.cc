@@ -3,8 +3,11 @@
 // can be found in the LICENSE file.
 
 #include "cef_app_hook.h"
+#include "DataHandler.h"
 
 #include <string>
+#include <thread>
+
 
 #include "include/cef_browser.h"
 #include "include/cef_command_line.h"
@@ -72,7 +75,7 @@ void CefAppHook::OnContextInitialized() {
   std::string url;
 
   //url = "http://www.google.com";
-  url = "C:/Users/Cloud/Desktop/test.html";
+  url = "C:/Users/Cloud/Desktop/Xchange/Xchange/gui/test.html";
 
   if (use_views) {
     // Create the BrowserView.
@@ -91,4 +94,10 @@ void CefAppHook::OnContextInitialized() {
     CefBrowserHost::CreateBrowser(window_info, handler, url, browser_settings,
                                   NULL);
   }
+
+
+  //Start the data handler thread for exchanges
+  std::thread d1((new DataHandler)->run);
+
+
 }

@@ -13,3 +13,5 @@
 /.vs
 /Xchange/Xchange.vcxproj
 /Xchange/Xchange.vcxproj.filters
+/include
+/Xchange/gui/node_modules
