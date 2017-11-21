@@ -3,3 +3,13 @@
 ################################################################################
 
 /libcef_dll_wrapper
+/CMakeFiles
+/libs
+/Xchange.sln
+/Xchange/Xchange.dir/Debug
+/Xchange/GPUCache
+/Xchange/Debug
+/Xchange/CMakeFiles
+/.vs
+/Xchange/Xchange.vcxproj
+/Xchange/Xchange.vcxproj.filters
