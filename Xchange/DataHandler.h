@@ -4,6 +4,6 @@ class DataHandler
 public:
 	DataHandler();
 	~DataHandler();
-	int run();
+	void run();
 };
 

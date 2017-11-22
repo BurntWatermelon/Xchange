@@ -97,7 +97,10 @@ void CefAppHook::OnContextInitialized() {
 
 
   //Start the data handler thread for exchanges
-  std::thread d1((new DataHandler)->run);
+  //remember this is on heap -- works differently from java
+
+  DataHandler data_handler;
+  std::thread d1(&DataHandler::run, &data_handler);
 
 
 }
