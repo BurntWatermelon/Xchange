@@ -15,3 +15,5 @@
 /Xchange/Xchange.vcxproj.filters
 /include
 /Xchange/gui/node_modules
+/Xchange/Release
+/Xchange/Xchange.dir/Release

@@ -12,7 +12,8 @@
 class CefBrowserHook : public CefClient,
                       public CefDisplayHandler,
                       public CefLifeSpanHandler,
-                      public CefLoadHandler {
+                      public CefLoadHandler,
+					  public CefRequestHandler{
  public:
   explicit CefBrowserHook(bool use_views);
   ~CefBrowserHook();
@@ -28,6 +29,8 @@ class CefBrowserHook : public CefClient,
     return this;
   }
   virtual CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE { return this; }
+
+  virtual CefRefPtr<CefRequestHandler> GetRequestHandler() OVERRIDE { return this; }
 
   // CefDisplayHandler methods:
   virtual void OnTitleChange(CefRefPtr<CefBrowser> browser,
@@ -63,6 +66,12 @@ class CefBrowserHook : public CefClient,
   BrowserList browser_list_;
 
   bool is_closing_;
+
+  virtual ReturnValue OnBeforeResourceLoad(
+	  CefRefPtr<CefBrowser> browser,
+	  CefRefPtr<CefFrame> frame,
+	  CefRefPtr<CefRequest> request,
+	  CefRefPtr<CefRequestCallback> callback) OVERRIDE;
 
   // Include the default reference counting implementation.
   IMPLEMENT_REFCOUNTING(CefBrowserHook);

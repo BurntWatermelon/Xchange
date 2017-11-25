@@ -8,7 +8,7 @@
 #include "include/cef_app.h"
 
 // Implement application-level callbacks for the browser process.
-class CefAppHook : public CefApp, public CefBrowserProcessHandler {
+class CefAppHook : public CefApp, public CefBrowserProcessHandler, public CefRenderProcessHandler {
  public:
   CefAppHook();
 
@@ -18,8 +18,21 @@ class CefAppHook : public CefApp, public CefBrowserProcessHandler {
     return this;
   }
 
+  /*
+  virtual CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler()
+	  OVERRIDE {
+	  return this;
+  }*/
+
   // CefBrowserProcessHandler methods:
   virtual void OnContextInitialized() OVERRIDE;
+  
+  /*
+  //By implementing this via the render handler we will be doing UI blocking work, may not be the best mechanism but a temporary solution
+  virtual bool OnBeforeNavigation(CefRefPtr<CefBrowser> browser,
+	  CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request,
+	  NavigationType navigation_type, bool is_redirect)  OVERRIDE;
+  */
 
  private:
   // Include the default reference counting implementation.

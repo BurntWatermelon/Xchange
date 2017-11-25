@@ -3,7 +3,7 @@
 // can be found in the LICENSE file.
 
 #include "cef_app_hook.h"
-#include "DataHandler.h"
+#include "DataThread.h"
 
 #include <string>
 #include <thread>
@@ -75,7 +75,7 @@ void CefAppHook::OnContextInitialized() {
   std::string url;
 
   //url = "http://www.google.com";
-  url = "C:/Users/Cloud/Desktop/Xchange/Xchange/gui/test.html";
+  url = "C:/Users/Cloud/Desktop/Xchange/Xchange/gui/interface/interface.html";
 
   if (use_views) {
     // Create the BrowserView.
@@ -99,8 +99,38 @@ void CefAppHook::OnContextInitialized() {
   //Start the data handler thread for exchanges
   //remember this is on heap -- works differently from java
 
-  DataHandler data_handler;
-  std::thread d1(&DataHandler::run, &data_handler);
+  //DataThread data_thread;
+  //std::thread d1(&DataThread::run, &data_thread);
 
 
 }
+
+/* Something else seems to be calling OnBeforeNavigation, is there another handler?
+#define ADD_EXCHANGE "adex";
+//pass commands via query params !
+bool CefAppHook::OnBeforeNavigation(CefRefPtr<CefBrowser> browser,
+	CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request,
+	NavigationType navigation_type, bool is_redirect)
+{
+	CefString cefval = request->GetURL();
+	std::string val = cefval.ToString().c_str();
+	OutputDebugString(
+		L"test"
+	);
+	if (val.find("adex") != std::string::npos)
+	{
+		//process the command here 
+
+		MessageBox(
+			NULL,
+			L"test, add aexchange",
+			(LPCWSTR)L"Account Details",
+			MB_ICONWARNING | MB_CANCELTRYCONTINUE | MB_DEFBUTTON2
+		);
+
+
+		return true;
+	}
+
+	return true; //true cancels navigation, false allows it 
+}*/

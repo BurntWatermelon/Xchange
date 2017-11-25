@@ -136,3 +136,31 @@ void CefBrowserHook::PlatformTitleChange(CefRefPtr<CefBrowser> browser,
 	CefWindowHandle hwnd = browser->GetHost()->GetWindowHandle();
 	SetWindowText(hwnd, std::wstring(title).c_str());
 }
+
+CefRequestHandler::ReturnValue CefBrowserHook::OnBeforeResourceLoad(
+	CefRefPtr<CefBrowser> browser,
+	CefRefPtr<CefFrame> frame,
+	CefRefPtr<CefRequest> request,
+	CefRefPtr<CefRequestCallback> callback)
+{
+	CefString cefval = request->GetURL();
+	std::string val = cefval.ToString().c_str();
+	
+	if (val.find("adex") != std::string::npos)
+	{
+		//process the command here 
+
+		MessageBox(
+			NULL,
+			L"test, add aexchange",
+			(LPCWSTR)L"Account Details",
+			MB_ICONWARNING | MB_CANCELTRYCONTINUE | MB_DEFBUTTON2
+		);
+
+
+		return RV_CANCEL;
+	}
+
+	return RV_CONTINUE; //true cancels navigation, false allows it 
+}
+
