@@ -10,3 +10,7 @@
 	path = externals/bootstrap
 	url = https://github.com/twbs/bootstrap
 	branch = master
+[submodule "externals/cef"]
+	path = externals/cef
+	url = https://bitbucket.org/chromiumembedded/cef
+	branch = master
