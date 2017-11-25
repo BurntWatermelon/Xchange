@@ -1,0 +1,12 @@
+[submodule "cef"]
+	path = cef
+	url = https://bitbucket.org/chromiumembedded/cef
+	branch = master
+[submodule "externals/cpprestsdk"]
+	path = externals/cpprestsdk
+	url = https://github.com/Microsoft/cpprestsdk.git
+	branch = master
+[submodule "externals/bootstrap"]
+	path = externals/bootstrap
+	url = https://github.com/twbs/bootstrap
+	branch = master
