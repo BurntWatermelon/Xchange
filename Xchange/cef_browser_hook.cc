@@ -13,6 +13,7 @@
 #include "include/views/cef_window.h"
 #include "include/wrapper/cef_closure_task.h"
 #include "include/wrapper/cef_helpers.h"
+#include "ExchangeController.h"
 
 namespace {
 
@@ -46,11 +47,11 @@ void CefBrowserHook::OnTitleChange(CefRefPtr<CefBrowser> browser,
     if (browser_view) {
       CefRefPtr<CefWindow> window = browser_view->GetWindow();
       if (window)
-        window->SetTitle(title);
+        window->SetTitle("Xchange");
     }
   } else {
     // Set the title of the window using platform APIs.
-    PlatformTitleChange(browser, title);
+    PlatformTitleChange(browser, "Xchange");
   }
 }
 
@@ -137,6 +138,8 @@ void CefBrowserHook::PlatformTitleChange(CefRefPtr<CefBrowser> browser,
 	SetWindowText(hwnd, std::wstring(title).c_str());
 }
 
+
+//A quick hack to call c++ functions from javascript via cef function overrides. we will use this to add new exchange connections etc. This should be async (check)
 CefRequestHandler::ReturnValue CefBrowserHook::OnBeforeResourceLoad(
 	CefRefPtr<CefBrowser> browser,
 	CefRefPtr<CefFrame> frame,
@@ -148,14 +151,17 @@ CefRequestHandler::ReturnValue CefBrowserHook::OnBeforeResourceLoad(
 	
 	if (val.find("adex") != std::string::npos)
 	{
-		//process the command here 
+		//Talk to exchange controller here
+		ExchangeController::registerExchange();
 
-		MessageBox(
-			NULL,
-			L"test, add aexchange",
-			(LPCWSTR)L"Account Details",
-			MB_ICONWARNING | MB_CANCELTRYCONTINUE | MB_DEFBUTTON2
-		);
+
+		return RV_CANCEL;
+	}
+
+	if (val.find("redex") != std::string::npos)
+	{
+		//Talk to exchange controller here
+		ExchangeController::unregisterExchange();
 
 
 		return RV_CANCEL;

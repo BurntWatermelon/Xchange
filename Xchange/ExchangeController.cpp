@@ -17,8 +17,14 @@ void ExchangeController::initializeListener()
 
 }
 
-// this doesnt need to be in here, its not thread specific, data thread should just be for pulling data. you can register a new connection here though
+//Static
 void ExchangeController::registerExchange()
+{
+	//	exchange_controller.add();
+}
+
+//Static
+void ExchangeController::unregisterExchange()
 {
 	//	exchange_controller.add();
 }
