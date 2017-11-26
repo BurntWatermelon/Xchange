@@ -49,6 +49,11 @@ void DataThread::run()
 			MB_ICONWARNING | MB_CANCELTRYCONTINUE | MB_DEFBUTTON2
 		); 
 		
+		//Data update loop // TODO web sockets
+		while (true)
+		{
+			Sleep(1000);
+		}
 }
 
 

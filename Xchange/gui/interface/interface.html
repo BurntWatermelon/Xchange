@@ -2,7 +2,13 @@
 <!DOCTYPE html>
 <html>
 <script src="https://use.fontawesome.com/2c255a088c.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+<script src="https://code.highcharts.com/stock/modules/drag-panes.js"></script>
+<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
 
 <link rel="stylesheet" href="../bootstrap-3.3.7-dist/css/bootstrap.min.css">
 
@@ -16,12 +22,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#adex" onclick="window.location = 'adex'">+</a>
+      <a class="navbar-brand" href="" onclick="addexchange()">+</a>
     </div>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="#adex" onclick="window.location = 'redex'"><i class="fa fa-camera-retro"></i></a></li>
+        <li><a href="" data-toggle="modal" data-target="#myModal"><i class="fa fa-camera-retro"></i></a></li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -32,17 +38,259 @@
 </nav>
 
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<div id="exchange_container">
+	
+
+</div>
+
+
+ <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add exchange</h4>
+        </div>`
+        <div class="modal-body">
+
+
+        	<div class="dropdown">
+			    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Exchange
+			    <span class="caret"></span></button>
+			    <ul class="dropdown-menu">
+			      <li><a href="#">Bittrex</a></li>
+			      <li><a href="#">Bitfinex</a></li>
+			      <li><a href="#">Quadriga</a></li>
+			    </ul>
+			  </div>
+			 <br><input id="api-key" type="text" placeholder="API Key" class="form-control">
+			 <br><input id="api-secret" type="text" placeholder="API Secret" class="form-control">
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="addexchange()">Submit</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+
+<div class="container" position="bottom">
+  <h2>Python Console</h2>
+  <form>
+    <div class="form-group">
+      <label for="console">Execute custom trading algos</label>
+      <textarea class="form-control" rows="5" id="console"></textarea>
+    </div>
+  </form>
+</div>
+
+<style>
+.container {
+    position: absolute;
+   	bottom: 0px;
+}
+</style>
 
 <script>
-//Bootstrap wrapper library bootswatch theme
+$( document ).ready(function() {
+    //Global chart themes set
 
-//Take an MVC approach cpp sends data via cef to a controller i.e. exchange controller which is a wrapper for the angular controller, the views will hold exchange charts and will be completely in web side
+		Highcharts.createElement('link', {
+		   href: 'https://fonts.googleapis.com/css?family=Dosis:400,600',
+		   rel: 'stylesheet',
+		   type: 'text/css'
+		}, null, document.getElementsByTagName('head')[0]);
+
+		Highcharts.theme = {
+		   colors: ['#7cb5ec', '#f7a35c', '#90ee7e', '#7798BF', '#aaeeee', '#ff0066',
+		      '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
+		   chart: {
+		      backgroundColor: null,
+		      style: {
+		         fontFamily: 'Dosis, sans-serif'
+		      }
+		   },
+		   title: {
+		      style: {
+		         fontSize: '16px',
+		         fontWeight: 'bold',
+		         textTransform: 'uppercase'
+		      }
+		   },
+		   tooltip: {
+		      borderWidth: 0,
+		      backgroundColor: 'rgba(219,219,216,0.8)',
+		      shadow: false
+		   },
+		   legend: {
+		      itemStyle: {
+		         fontWeight: 'bold',
+		         fontSize: '13px'
+		      }
+		   },
+		   xAxis: {
+		      gridLineWidth: 1,
+		      labels: {
+		         style: {
+		            fontSize: '12px'
+		         }
+		      }
+		   },
+		   yAxis: {
+		      minorTickInterval: 'auto',
+		      title: {
+		         style: {
+		            textTransform: 'uppercase'
+		         }
+		      },
+		      labels: {
+		         style: {
+		            fontSize: '12px'
+		         }
+		      }
+		   },
+		   plotOptions: {
+		      candlestick: {
+		         lineColor: '#404048'
+		      }
+		   },
+
+
+		   // General
+		   background2: '#F0F0EA'
+
+		};
+
+		// Apply the theme
+		Highcharts.setOptions(Highcharts.theme);});
 
 
 //Test communicate to interfacecontroller function via CEF
-//callInterfaceController("test");
+function addexchange()
+{
 
+	/*Reserved - window.exchangeToAdd most recent exchange added
+
+	window.*exchange*Prices - corresponding array of data
+
+	*/
+	// Load the fonts
+
+
+		$("#exchange_container").append('<div id="' + window.exchangeToAdd + '_div"></div>')
+
+
+		$.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=aapl-ohlcv.json&callback=?', function (data) {
+
+	    // split the data set into ohlc and volume
+	    var ohlc = [],
+	        volume = [],
+	        dataLength = data.length,
+	        // set the allowed units for data grouping
+	        groupingUnits = [[
+	            'week',                         // unit name
+	            [1]                             // allowed multiples
+	        ], [
+	            'month',
+	            [1, 2, 3, 4, 6]
+	        ]],
+
+	        i = 0;
+
+	    for (i; i < dataLength; i += 1) {
+	        ohlc.push([
+	            data[i][0], // the date
+	            data[i][1], // open
+	            data[i][2], // high
+	            data[i][3], // low
+	            data[i][4] // close
+	        ]);
+
+	        volume.push([
+	            data[i][0], // the date
+	            data[i][5] // the volume
+	        ]);
+	    }
+
+
+	    // create the chart
+	    Highcharts.stockChart(window.exchangeToAdd + '_div', {
+
+	        rangeSelector: {
+	            selected: 1
+	        },
+
+	        title: {
+	            text: 'AAPL Historical'
+	        },
+
+	        yAxis: [{
+	            labels: {
+	                align: 'right',
+	                x: -3
+	            },
+	            title: {
+	                text: 'OHLC'
+	            },
+	            height: '60%',
+	            lineWidth: 2,
+	            resize: {
+	                enabled: true
+	            }
+	        }, {
+	            labels: {
+	                align: 'right',
+	                x: -3
+	            },
+	            title: {
+	                text: 'Volume'
+	            },
+	            top: '65%',
+	            height: '35%',
+	            offset: 0,
+	            lineWidth: 2
+	        }],
+
+	        tooltip: {
+	            split: true
+	        },
+
+	        series: [{
+	            type: 'candlestick',
+	            name: 'AAPL',
+	            data: ohlc,
+	            dataGrouping: {
+	                units: groupingUnits
+	            }
+	        }, {
+	            type: 'column',
+	            name: 'Volume',
+	            data: volume,
+	            yAxis: 1,
+	            dataGrouping: {
+	                units: groupingUnits
+	            }
+	        }]
+	    });
+	});
+
+}
+
+
+	//window.location = 'adex'
+
+
+
+$(".dropdown li a").click( function() {
+    window.exchangeToAdd = $(this).text();
+});
+
+//set interval timer 	//Add a timer to update charts via some js array that is updated via c++
 
 </script>
 

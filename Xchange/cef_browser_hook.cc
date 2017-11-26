@@ -151,6 +151,8 @@ CefRequestHandler::ReturnValue CefBrowserHook::OnBeforeResourceLoad(
 	
 	if (val.find("adex") != std::string::npos)
 	{
+		//Extract form params - api keys , exchange type
+
 		//Talk to exchange controller here
 		ExchangeController::registerExchange();
 

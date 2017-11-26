@@ -2,25 +2,19 @@
 
 
 
-ExchangeController::ExchangeController()
-{
-}
-
-
-ExchangeController::~ExchangeController()
-{
-}
-
 //Listener should pick up calls from interface controller to add an exchange to the pool.
 void ExchangeController::initializeListener()
 {
 
 }
 
-//Static
-void ExchangeController::registerExchange()
+//Static - thread unsafe
+void ExchangeController::registerExchange(Exchange exch)
 {
-	//	exchange_controller.add();
+
+	ExchangeConnection newConnection();
+
+	ExchangeController::exchange_connections.push_back(newConnection);
 }
 
 //Static
